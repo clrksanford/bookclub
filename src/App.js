@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import CreateEvent from './components/CreateEvent';
+import { API_BASE_URL } from './constants';
 import './App.css';
 
 class App extends Component {
@@ -18,7 +19,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/api/events/').then(res => {
+        axios.get(API_BASE_URL + 'events/').then(res => {
             console.log(res);
             this.setState({events: res.data});
         })
