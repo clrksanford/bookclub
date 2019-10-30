@@ -40,7 +40,11 @@ class App extends Component {
                 return(
                   <div id="event-card" key={event.id}>
                     <h3>{event.title}</h3>
-                    <img src={event.cover_url} alt="Cover" />
+                    <dl>
+                      <dt>Date:</dt>
+                      <dl>{event.date} @ 7pm</dl>
+                    </dl>
+                    <img src={event.book.cover_url} alt={event.book.title + " Cover"} />
                   </div>
                 );
               })}
