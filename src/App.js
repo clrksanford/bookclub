@@ -34,6 +34,10 @@ class App extends Component {
             </header>
             <main>
               <button onClick={this.showModal}>Create an Event</button>
+              <CreateEvent
+                hideModal={this.hideModal}
+                modalHidden={this.state.modalHidden}
+              />
               <h2>Upcoming Events</h2>
 
               {_.map(this.state.events, (event) => {
@@ -48,11 +52,6 @@ class App extends Component {
                   </div>
                 );
               })}
-
-              <CreateEvent
-                hideModal={this.hideModal}
-                modalHidden={this.state.modalHidden}
-              />
             </main>
           </div>
         );
