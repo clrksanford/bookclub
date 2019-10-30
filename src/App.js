@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import CreateEvent from './components/CreateEvent';
 import './App.css';
 
@@ -8,6 +9,7 @@ class App extends Component {
         super(props);
 
         this.state = {
+            events: [],
             modalHidden: true
         }
 
@@ -18,6 +20,7 @@ class App extends Component {
     componentDidMount() {
         axios.get('http://127.0.0.1:8000/api/events/').then(res => {
             console.log(res);
+            this.setState({events: res.data});
         })
     }
 
@@ -33,10 +36,14 @@ class App extends Component {
               <button onClick={this.showModal}>Create an Event</button>
               <h2>Upcoming Events</h2>
 
-              <div id="event-card">
-                <h3>November Event: Conundrum</h3>
-                <img src="#" alt="Conundrum Cover" />
-              </div>
+              {_.map(this.state.events, (event) => {
+                return(
+                  <div id="event-card" key={event.id}>
+                    <h3>{event.title}</h3>
+                    <img src={event.cover_url} alt="Cover" />
+                  </div>
+                );
+              })}
 
               <CreateEvent
                 hideModal={this.hideModal}
