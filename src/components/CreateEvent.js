@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { API_BASE_URL } from '../constants';
 import '../App.css';
 
 
@@ -17,8 +19,17 @@ class CreateEvent extends Component {
                 description: {
                     value: ''
                 },
-                book: {
-                    value: 0
+                bookTitle: {
+                    value: ''
+                },
+                bookAuthor: {
+                    value: ''
+                },
+                bookCoverUrl: {
+                    value: ''
+                },
+                bookBlurb: {
+                    value: ''
                 }
             }
         }
@@ -43,12 +54,21 @@ class CreateEvent extends Component {
                 <label htmlFor="description">Description:</label>
                 <textarea id="description" name="description" value={this.state.description} onChange={this.handleChange}></textarea>
 
-                <label htmlFor="book">Book:</label>
-                <select id="book" name="book" value={this.state.book} onChange={this.handleChange}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
+                <fieldset>
+                  <legend>Book Info</legend>
+
+                  <label htmlFor="bookTitle">Book Title:</label>
+                  <input type="text" id="bookTitle" name="bookTitle" value={this.state.formControls.bookTitle.value} onChange={this.handleChange}/>
+
+                  <label htmlFor="bookTitle">Book Author:</label>
+                  <input type="text" id="bookAuthor" name="bookAuthor" value={this.state.formControls.bookAuthor.value} onChange={this.handleChange}/>
+
+                  <label htmlFor="bookCoverUrl">Book Cover:</label>
+                  <input type="text" id="bookCoverUrl" name="bookCoverUrl" value={this.state.formControls.bookCoverUrl.value} onChange={this.handleChange}/>
+
+                  <label htmlFor="bookTitle">Book Blurb:</label>
+                  <input type="text" id="bookBlurb" name="bookBlurb" value={this.state.formControls.bookBlurb.value} onChange={this.handleChange}/>
+                </fieldset>
 
                 <input type="submit" value="Save" onClick={this.saveEvent}/>
               </form>
@@ -73,7 +93,24 @@ class CreateEvent extends Component {
 
     saveEvent(e) {
         e.preventDefault();
-        console.log(this.state.formControls);
+
+        let payload = {};
+        payload['title'] = this.state.formControls.title.value;
+        payload['date'] = this.state.formControls.date.value;
+        payload['description'] = this.state.formControls.description.value;
+
+        let book = {};
+
+        book['title'] = this.state.formControls.bookTitle.value;
+        book['author'] = this.state.formControls.bookAuthor.value;
+        book['cover_url'] = this.state.formControls.bookCoverUrl.value;
+        book['blurb'] = this.state.formControls.bookBlurb.value;
+
+        payload['book'] = book;
+
+        axios.post(API_BASE_URL + 'events/', payload).then(res => {
+            console.log(res);
+        });
     }
 }
 
