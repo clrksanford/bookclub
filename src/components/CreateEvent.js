@@ -108,9 +108,7 @@ class CreateEvent extends Component {
 
         payload['book'] = book;
 
-        axios.post(API_BASE_URL + 'events/', payload).then(res => {
-            console.log(res);
-        });
+        this.props.saveEvent(payload);
     }
 }
 

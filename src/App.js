@@ -11,14 +11,15 @@ class App extends Component {
 
         this.state = {
             events: [],
+            messages: [],
             modalHidden: true,
             pastEvents: [],
             upcomingEvents: []
         }
 
         this.getList = this.getList.bind(this);
-        this.hideModal = this.hideModal.bind(this);
-        this.showModal = this.showModal.bind(this);
+        this.saveEvent = this.saveEvent.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -34,10 +35,18 @@ class App extends Component {
               </h1>
             </header>
             <main>
-              <button onClick={this.showModal}>Create an Event</button>
+              {this.state.messages.length > 0 &&
+                <ul>
+                  {_.map(this.state.messages, message => {
+                    return <li>{message}</li>
+                  })}
+                </ul>
+              }
+              <button onClick={this.toggleModal}>Create an Event</button>
               <CreateEvent
-                hideModal={this.hideModal}
+                hideModal={this.toggleModal}
                 modalHidden={this.state.modalHidden}
+                saveEvent={this.saveEvent}
               />
               <h2>Upcoming Events</h2>
 
@@ -81,12 +90,18 @@ class App extends Component {
         });
     }
 
-    hideModal() {
-        this.setState({ modalHidden: true })
+    saveEvent(payload) {
+        axios.post(API_BASE_URL + 'events/', payload).then(res => {
+            this.getList();
+            let messages = this.state.messages;
+            messages.push('Event successfully created!');
+            this.setState({ messages });
+            this.toggleModal();
+        });
     }
 
-    showModal() {
-        this.setState({ modalHidden: false });
+    toggleModal() {
+        this.state.modalHidden ? this.setState({ modalHidden: false }) : this.setState({ modalHidden: true });
     }
 
     _formatResults(events) {
