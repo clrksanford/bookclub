@@ -11,18 +11,18 @@ class App extends Component {
 
         this.state = {
             events: [],
-            modalHidden: true
+            modalHidden: true,
+            pastEvents: [],
+            upcomingEvents: []
         }
 
+        this.getList = this.getList.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showModal = this.showModal.bind(this);
     }
 
     componentDidMount() {
-        axios.get(API_BASE_URL + 'events/').then(res => {
-            console.log(res);
-            this.setState({events: res.data});
-        })
+        this.getList();
     }
 
     render() {
@@ -41,7 +41,22 @@ class App extends Component {
               />
               <h2>Upcoming Events</h2>
 
-              {_.map(this.state.events, (event) => {
+              {_.map(this.state.upcomingEvents, (event) => {
+                return(
+                  <div id="event-card" key={event.id}>
+                    <h3>{event.title}</h3>
+                    <dl>
+                      <dt>Date:</dt>
+                      <dl>{event.date} @ 7pm</dl>
+                    </dl>
+                    <img src={event.book.cover_url} alt={event.book.title + " Cover"} />
+                  </div>
+                );
+              })}
+
+              <h2>Past Events</h2>
+
+              {_.map(this.state.pastEvents, (event) => {
                 return(
                   <div id="event-card" key={event.id}>
                     <h3>{event.title}</h3>
@@ -58,12 +73,40 @@ class App extends Component {
         );
     }
 
+    getList() {
+        axios.get(API_BASE_URL + 'events/').then(res => {
+            this._sortEvents(res.data);
+            this.setState({events: res.data});
+        });
+    }
+
     hideModal() {
         this.setState({ modalHidden: true })
     }
 
     showModal() {
         this.setState({ modalHidden: false });
+    }
+
+    _sortEvents(events) {
+        let upcomingEvents = [];
+        let pastEvents = [];
+
+        _.forEach(events, event => {
+            let eventDate = new Date(event.date);
+            let today = new Date();
+
+            if (eventDate > today) {
+                upcomingEvents.push(event);
+            } else {
+                pastEvents.push(event);
+            }
+        });
+
+        this.setState({
+            upcomingEvents,
+            pastEvents
+        });
     }
 }
 
