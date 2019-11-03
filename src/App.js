@@ -47,7 +47,7 @@ class App extends Component {
                     <h3>{event.title}</h3>
                     <dl>
                       <dt>Date:</dt>
-                      <dl>{event.date} @ 7pm</dl>
+                      <dl>{event.dateFormatted} @ 7pm</dl>
                     </dl>
                     <img src={event.book.cover_url} alt={event.book.title + " Cover"} />
                   </div>
@@ -62,7 +62,7 @@ class App extends Component {
                     <h3>{event.title}</h3>
                     <dl>
                       <dt>Date:</dt>
-                      <dl>{event.date} @ 7pm</dl>
+                      <dl>{event.dateFormatted} @ 7pm</dl>
                     </dl>
                     <img src={event.book.cover_url} alt={event.book.title + " Cover"} />
                   </div>
@@ -75,6 +75,7 @@ class App extends Component {
 
     getList() {
         axios.get(API_BASE_URL + 'events/').then(res => {
+            res.data = this._formatResults(res.data);
             this._sortEvents(res.data);
             this.setState({events: res.data});
         });
@@ -86,6 +87,33 @@ class App extends Component {
 
     showModal() {
         this.setState({ modalHidden: false });
+    }
+
+    _formatResults(events) {
+        return _.map(events, event => {
+              event.dateFormatted = this._formatDate(event.date);
+              return event;
+        });
+    }
+
+    _formatDate(dateStr) {
+        let year = dateStr.substring(0,4);
+        let month = dateStr.substring(5,7) - 1;
+        let day = dateStr.substring(8,10);
+
+        let date = new Date(year, month, day);
+        let ccyy = date.getFullYear();
+        let mm = this._zeroPad(date.getMonth() + 1);
+        let dd = this._zeroPad(date.getDate());
+
+        return mm  + '/' + dd + '/' + ccyy;
+    }
+
+    _zeroPad(dateNum) {
+        if (dateNum < 10) {
+            dateNum = '0' + dateNum;
+        }
+        return dateNum;
     }
 
     _sortEvents(events) {
