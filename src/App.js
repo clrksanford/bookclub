@@ -74,6 +74,7 @@ class App extends Component {
 
     getList() {
         axios.get(API_BASE_URL + 'events/').then(res => {
+            console.log(res);
             res.data = this._formatResults(res.data);
             this._sortEvents(res.data);
             this.setState({events: res.data});
@@ -81,9 +82,10 @@ class App extends Component {
     }
 
     rsvpClick(eventId)  {
-        let username = 'clrksanford';
+        let username = 'loschroe';
         axios.post(API_BASE_URL + `events/${eventId}/rsvp/`, {username: username}).then(res => {
             console.log(res);
+            this.getList();
         });
     }
 
