@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import CreateEvent from './components/CreateEvent';
+import Event from './components/Event';
 import { API_BASE_URL } from './constants';
 import './App.css';
 
@@ -52,14 +53,7 @@ class App extends Component {
 
               {_.map(this.state.upcomingEvents, (event) => {
                 return(
-                  <div id="event-card" key={event.id}>
-                    <h3>{event.title}</h3>
-                    <dl>
-                      <dt>Date:</dt>
-                      <dl>{event.dateFormatted} @ 7pm</dl>
-                    </dl>
-                    <img src={event.book.cover_url} alt={event.book.title + " Cover"} />
-                  </div>
+                    <Event key={event.id} event={event}/>
                 );
               })}
 
@@ -67,14 +61,7 @@ class App extends Component {
 
               {_.map(this.state.pastEvents, (event) => {
                 return(
-                  <div id="event-card" key={event.id}>
-                    <h3>{event.title}</h3>
-                    <dl>
-                      <dt>Date:</dt>
-                      <dl>{event.dateFormatted} @ 7pm</dl>
-                    </dl>
-                    <img src={event.book.cover_url} alt={event.book.title + " Cover"} />
-                  </div>
+                    <Event key={event.id} event={event}/>
                 );
               })}
             </main>
