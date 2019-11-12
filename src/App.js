@@ -81,7 +81,8 @@ class App extends Component {
     }
 
     rsvpClick(eventId)  {
-        axios.post(API_BASE_URL + `events/${eventId}/rsvp/?username=clrksanford`, {}).then(res => {
+        let username = 'clrksanford';
+        axios.post(API_BASE_URL + `events/${eventId}/rsvp/`, {username: username}).then(res => {
             console.log(res);
         });
     }
