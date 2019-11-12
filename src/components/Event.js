@@ -11,12 +11,10 @@ class Event extends Component {
 
     render() {
         return(
-            <div id="event-card" key={this.props.event.id}>
+            <div className="event-card" key={this.props.event.id}>
               <h3>{this.props.event.title}</h3>
-              <dl>
-                <dt>Date:</dt>
-                <dl>{this.props.event.dateFormatted} @ 7pm</dl>
-              </dl>
+              <p>Date: {this.props.event.dateFormatted} @ 7pm</p>
+              <p>Book: <em>{this.props.event.book.title}</em> by {this.props.event.book.author}</p>
               <img src={this.props.event.book.cover_url} alt={this.props.event.book.title + " Cover"} />
             </div>
         );
