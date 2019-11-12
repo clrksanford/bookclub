@@ -20,6 +20,7 @@ class App extends Component {
 
         this.getList = this.getList.bind(this);
         this.saveEvent = this.saveEvent.bind(this);
+        this.rsvpClick = this.rsvpClick.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
     }
 
@@ -53,7 +54,9 @@ class App extends Component {
 
               {_.map(this.state.upcomingEvents, (event) => {
                 return(
-                    <Event key={event.id} event={event}/>
+                    <Event key={event.id}
+                      event={event}
+                      rsvpClick={this.rsvpClick}/>
                 );
               })}
 
@@ -74,6 +77,12 @@ class App extends Component {
             res.data = this._formatResults(res.data);
             this._sortEvents(res.data);
             this.setState({events: res.data});
+        });
+    }
+
+    rsvpClick(eventId)  {
+        axios.post(API_BASE_URL + `events/${eventId}/rsvp/?username=clrksanford`, {}).then(res => {
+            console.log(res);
         });
     }
 
