@@ -4,6 +4,7 @@ import _ from 'lodash';
 import CreateEvent from './components/CreateEvent';
 import Event from './components/Event';
 import { API_BASE_URL } from './constants';
+import { Typography } from '@material-ui/core';
 import './App.css';
 
 class App extends Component {
@@ -32,9 +33,9 @@ class App extends Component {
         return (
           <div className="App">
             <header className="App-header">
-              <h1>
-                Clarks's Queer Book Club ATX
-              </h1>
+              <Typography variant="h1" component="h1">
+                Clark's Queer Book Club ATX
+              </Typography>
             </header>
             <main>
               {this.state.messages.length > 0 &&
@@ -50,23 +51,38 @@ class App extends Component {
                 modalHidden={this.state.modalHidden}
                 saveEvent={this.saveEvent}
               />
-              <h2>Upcoming Events</h2>
+              <Typography variant="h2" component="h2">
+                Upcoming Events
+              </Typography>
 
-              {_.map(this.state.upcomingEvents, (event) => {
-                return(
-                    <Event key={event.id}
-                      event={event}
-                      rsvpClick={this.rsvpClick}/>
-                );
-              })}
 
-              <h2>Past Events</h2>
+              {
+                !this.state.upcomingEvents.length ?
+                  <p>No upcoming events</p>
+                :
+                  _.map(this.state.upcomingEvents, (event) => {
+                    return(
+                        <Event key={event.id}
+                          event={event}
+                          rsvpClick={this.rsvpClick}/>
+                    );
+                  })
+              }
 
-              {_.map(this.state.pastEvents, (event) => {
-                return(
-                    <Event key={event.id} event={event}/>
-                );
-              })}
+              <Typography variant="h2" component="h2">
+                Past Events
+              </Typography>
+
+              {
+                !this.state.pastEvents.length ?
+                  <p>No past events</p>
+                :
+                _.map(this.state.pastEvents, (event) => {
+                  return(
+                      <Event key={event.id} event={event}/>
+                  );
+                })
+              }
             </main>
           </div>
         );

@@ -1,3 +1,7 @@
+.App {
+  text-align: center;
+}
+
 .hidden {
   display: none;
 }
@@ -7,9 +11,9 @@ img {
   height: auto;
 }
 
-.event-card {
+/* .event-card {
   border: 1px solid black;
   width: 500px;
   margin: 20px;
   text-align: center;
-}
+} */
