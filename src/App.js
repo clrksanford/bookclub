@@ -39,8 +39,8 @@ class App extends Component {
             <main>
               {this.state.messages.length > 0 &&
                 <ul>
-                  {_.map(this.state.messages, message => {
-                    return <li>{message}</li>
+                  {this.state.messages.forEach((message, index) => {
+                    return <li key={index}>{message}</li>
                   })}
                 </ul>
               }
@@ -74,7 +74,6 @@ class App extends Component {
 
     getList() {
         axios.get(API_BASE_URL + 'events/').then(res => {
-            console.log(res);
             res.data = this._formatResults(res.data);
             this._sortEvents(res.data);
             this.setState({events: res.data});
@@ -84,7 +83,6 @@ class App extends Component {
     rsvpClick(eventId)  {
         let username = 'loschroe';
         axios.post(API_BASE_URL + `events/${eventId}/rsvp/`, {username: username}).then(res => {
-            console.log(res);
             this.getList();
         });
     }

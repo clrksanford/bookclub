@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 
 
 export default (props) => {
     return(
-        <div className="event-card" key={props.event.id}>
+        <div className="event-card">
           <h3>{props.event.title}</h3>
           {props.rsvpClick ?
             <button
@@ -21,9 +21,9 @@ export default (props) => {
           <h4>Attendees</h4>
           {props.event.attendees.length ?
             <ul>
-              {_.map(props.event.attendees, (attendee) => {
+              {_.map(props.event.attendees, (attendee, index) => {
                 return (
-                  <li>{attendee}</li>
+                  <li key={props.event.id.toString() + attendee + index}>{attendee}</li>
                 );
               })}
             </ul> : <p>No one RSVP'd yet</p>}
