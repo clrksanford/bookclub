@@ -4,7 +4,7 @@ import _ from 'lodash';
 import CreateEvent from './components/CreateEvent';
 import Event from './components/Event';
 import { API_BASE_URL } from './constants';
-import { Typography } from '@material-ui/core';
+import { Container,  Typography } from '@material-ui/core';
 import './App.css';
 
 class App extends Component {
@@ -27,65 +27,6 @@ class App extends Component {
 
     componentDidMount() {
         this.getList();
-    }
-
-    render() {
-        return (
-          <div className="App">
-            <header className="App-header">
-              <Typography variant="h1" component="h1">
-                Clark's Queer Book Club ATX
-              </Typography>
-            </header>
-            <main>
-              {this.state.messages.length > 0 &&
-                <ul>
-                  {this.state.messages.forEach((message, index) => {
-                    return <li key={index}>{message}</li>
-                  })}
-                </ul>
-              }
-              <button onClick={this.toggleModal}>Create an Event</button>
-              <CreateEvent
-                hideModal={this.toggleModal}
-                modalHidden={this.state.modalHidden}
-                saveEvent={this.saveEvent}
-              />
-              <Typography variant="h2" component="h2">
-                Upcoming Events
-              </Typography>
-
-
-              {
-                !this.state.upcomingEvents.length ?
-                  <p>No upcoming events</p>
-                :
-                  _.map(this.state.upcomingEvents, (event) => {
-                    return(
-                        <Event key={event.id}
-                          event={event}
-                          rsvpClick={this.rsvpClick}/>
-                    );
-                  })
-              }
-
-              <Typography variant="h2" component="h2">
-                Past Events
-              </Typography>
-
-              {
-                !this.state.pastEvents.length ?
-                  <p>No past events</p>
-                :
-                _.map(this.state.pastEvents, (event) => {
-                  return(
-                      <Event key={event.id} event={event}/>
-                  );
-                })
-              }
-            </main>
-          </div>
-        );
     }
 
     getList() {
@@ -163,6 +104,69 @@ class App extends Component {
             upcomingEvents,
             pastEvents
         });
+    }
+
+    render() {
+        return (
+          <div className="App">
+            <header className="App-header">
+              <Typography variant="h1" component="h1">
+                Clark's Queer Book Club ATX
+              </Typography>
+            </header>
+            <main>
+              {this.state.messages.length > 0 &&
+                <ul>
+                  {this.state.messages.forEach((message, index) => {
+                    return <li key={index}>{message}</li>
+                  })}
+                </ul>
+              }
+              <button onClick={this.toggleModal}>Create an Event</button>
+              <CreateEvent
+                hideModal={this.toggleModal}
+                modalHidden={this.state.modalHidden}
+                saveEvent={this.saveEvent}
+              />
+              <Container>
+                <Typography variant="h2" component="h2">
+                  Upcoming Events
+                </Typography>
+
+
+                {
+                  !this.state.upcomingEvents.length ?
+                    <p>No upcoming events</p>
+                  :
+                    _.map(this.state.upcomingEvents, (event) => {
+                      return(
+                          <Event key={event.id}
+                            event={event}
+                            rsvpClick={this.rsvpClick}/>
+                      );
+                    })
+                }
+              </Container>
+
+              <Container>
+                <Typography variant="h2" component="h2">
+                  Past Events
+                </Typography>
+
+                {
+                  !this.state.pastEvents.length ?
+                    <p>No past events</p>
+                  :
+                  _.map(this.state.pastEvents, (event) => {
+                    return(
+                        <Event key={event.id} event={event}/>
+                    );
+                  })
+                }
+              </Container>
+            </main>
+          </div>
+        );
     }
 }
 
