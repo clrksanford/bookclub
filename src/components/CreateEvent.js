@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import '../App.css';
+import { Modal } from '@material-ui/core';
+import './CreateEvent.css';
 
 
 class CreateEvent extends Component {
@@ -38,7 +39,10 @@ class CreateEvent extends Component {
 
     render () {
         return(
-            <div className={this.props.modalHidden ? 'hidden' : ''}>
+            <Modal className={this.props.modalHidden ? 'hidden' : 'modal'}
+              open={this.props.modalHidden}
+              onClose={this.closeModal}
+            >
               <h1>Create New Event</h1>
               <p onClick={this.props.hideModal}>x</p>
 
@@ -70,8 +74,12 @@ class CreateEvent extends Component {
 
                 <input type="submit" value="Save" onClick={this.saveEvent}/>
               </form>
-            </div>
+            </Modal>
         )
+    }
+
+    closeModal() {
+        this.props.hideModal();
     }
 
     handleChange(event) {

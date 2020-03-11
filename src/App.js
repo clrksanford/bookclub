@@ -4,7 +4,7 @@ import _ from 'lodash';
 import CreateEvent from './components/CreateEvent';
 import Event from './components/Event';
 import { API_BASE_URL } from './constants';
-import { Container,  Typography } from '@material-ui/core';
+import { Button, Container, Typography } from '@material-ui/core';
 import './App.css';
 
 class App extends Component {
@@ -122,7 +122,7 @@ class App extends Component {
                   })}
                 </ul>
               }
-              <button onClick={this.toggleModal}>Create an Event</button>
+              <Button variant="contained" onClick={this.toggleModal}>Create an Event</Button>
               <CreateEvent
                 hideModal={this.toggleModal}
                 modalHidden={this.state.modalHidden}
